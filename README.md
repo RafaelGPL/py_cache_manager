@@ -129,8 +129,8 @@ All unit tests for the repo.
 V2.1
 * cPickle with fallback to pickle by default
 * Better argument checks
+* Changelog
 
 ## Author
 Author(s): Matthew Seal
 
-&copy; Copyright 2013, [OpenGov](http://opengov.com)
