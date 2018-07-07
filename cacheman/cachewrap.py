@@ -14,7 +14,7 @@ class CacheWrap(MutableMapping, object):
                       'pre_processor', 'post_processor', 'validator']
 
     def __init__(self, cache_name, contents=None, dependents=None, cache_manager=None,
-                 async=False, async_timeout=60, save_on_blank_cache=True, **kwargs):
+                 async_save=False, async_timeout=60, save_on_blank_cache=True, **kwargs):
         if cache_manager:
             self.manager = cache_manager
         else:
@@ -23,7 +23,8 @@ class CacheWrap(MutableMapping, object):
         self.contents = contents
         self.name = cache_name
         self.dependents = set([self._convert_dependent_to_name(d) for d in dependents] if dependents else [])
-        self.async = async
+        # Preserve backwards compatibility
+        self.async_save_enabled = kwargs.get('async', async_save)
         self.async_timeout = async_timeout
         self.save_on_blank = save_on_blank_cache
 
@@ -40,6 +41,8 @@ class CacheWrap(MutableMapping, object):
         if not hasattr(self, 'delete_triggered'):
             # Avoid infinite recursion if dependent objects trigger delete chains
             self.delete_triggered = True
+            # Reimport this library or we'll have import failures in later pythons during cleanup
+            import psutil
             self.save()
             if self.name in self.manager.cache_by_name:
                 del self.manager.cache_by_name[self.name]
@@ -204,7 +207,7 @@ class CacheWrap(MutableMapping, object):
             return contents
 
         # Determine if we're doing an async save or not
-        saver = self._async_save if self.async else self.saver
+        saver = self._async_save if self.async_save_enabled else self.saver
         return (saver and saver(self.name, contents)) or contents
 
     def invalidate(self, apply_to_dependents=True, seen_caches=None):

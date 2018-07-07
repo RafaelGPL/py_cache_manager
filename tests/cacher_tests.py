@@ -414,7 +414,7 @@ class CacheManagerTest(CacheCommonAsserter, unittest.TestCase):
 
     def test_async_saver(self):
         cache_name = self.check_cache_gone('foo_bar_async_saver')
-        cache = self.manager.register_custom_cache(cache_name, { 'foo': 'bar' }, async=True)
+        cache = self.manager.register_custom_cache(cache_name, { 'foo': 'bar' }, async_save=True)
         self.assertTrue(cache.async_saver)
         self.manager.save_cache_contents(cache_name)
         self.wait_async_complete()
@@ -430,7 +430,7 @@ class CacheManagerTest(CacheCommonAsserter, unittest.TestCase):
 
     def test_async_saver_queue(self):
         cache_name = self.check_cache_gone('foo_bar_async_queue')
-        cache = self.manager.register_custom_cache(cache_name, { 'foo': 'bar' }, async=True)
+        cache = self.manager.register_custom_cache(cache_name, { 'foo': 'bar' }, async_save=True)
         self.assertTrue(cache.async_saver)
         for _ in range(50):
             self.manager.save_cache_contents(cache_name)

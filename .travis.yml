@@ -1,11 +1,22 @@
-sudo: false
 language: python
-python:
-  - "2.7"
-  - "3.3"
-  - "3.4"
-  - "3.5"
-  - "3.6"
+
+matrix:
+  include:
+    - os: linux
+      python: 2.7
+    - os: linux
+      python: 3.3
+    - os: linux
+      python: 3.4
+    - os: linux
+      python: 3.5
+    - os: linux
+      python: 3.6
+    - os: linux
+      language: python
+      python: 3.7
+      dist: xenial
+      sudo: true
 
 install: "python setup.py install"
 script: "python setup.py test"
@@ -13,6 +24,6 @@ script: "python setup.py test"
 notifications:
   email:
     recipients:
-      - alerts+ci@opengov.com
+      - mseal007@gmail.com
     on_success: change
     on_failure: always

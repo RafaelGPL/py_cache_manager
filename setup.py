@@ -35,7 +35,7 @@ def read_md(fname):
     else:
         return read(fname)
 
-version = '2.0.8'
+version = '2.1.0'
 required = [req.strip() for req in read('requirements.txt').splitlines() if req.strip()]
 setup(
     name='CacheMan',
@@ -49,8 +49,8 @@ setup(
     packages=['cacheman'],
     test_suite='tests',
     zip_safe=False,
-    url='https://github.com/OpenGov/py_cache_manager',
-    download_url='https://github.com/OpenGov/py_cache_manager/tarball/v' + version,
+    url='https://github.com/MSeal/py_cache_manager',
+    download_url='https://github.com/MSeal/py_cache_manager/tarball/v' + version,
     keywords=['tables', 'data', 'analysis', 'extraction'],
     classifiers=[
         'Development Status :: 4 - Beta',
