@@ -1,4 +1,11 @@
-from collections.abc import MutableMapping
+import sys
+
+# 3.8+ compatibility:
+if sys.version_info[:2] >= (3, 8):
+    from collections.abc import MutableMapping
+else:
+    from collections import MutableMapping
+
 from past.builtins import basestring
 
 from .registers import *
